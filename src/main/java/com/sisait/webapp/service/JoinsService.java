@@ -1,6 +1,6 @@
 package com.sisait.webapp.service;
 
-
+import com.sisait.webapp.domain.JoinsEntity;
 import com.sisait.webapp.repository.JoinsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,4 +11,11 @@ public class JoinsService {
     // 회원인증과 관련된 DB작업을 할 repository 객체생성
     private final JoinsRepository repository;
 
+    //회원등록
+    public JoinsEntity createJoins(JoinsEntity joinsEntity) {
+        // @id의 필드가 null이면 insert -> select를 실행한다.
+        //          null이 아니면 Update -> select 를 실행한다.
+        System.out.println(joinsEntity.toString());
+        return repository.save(joinsEntity);
+    }
 }

@@ -21,6 +21,8 @@ public class JoinsController {
     @RequestMapping("/joinsForm")
     public Integer joinsForm(@RequestBody JoinsEntity joinsEntity){
         System.out.println(joinsEntity.toString());
-        return 1;
+        return service.createJoins(joinsEntity).getId();
+
+
     }
 }
