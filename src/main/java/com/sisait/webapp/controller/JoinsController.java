@@ -7,6 +7,7 @@ import com.sisait.webapp.service.JoinsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,6 +17,7 @@ public class JoinsController {
     private final JoinsService service;
 
     //회원가입 구현
+    @RequestMapping("/joinsForm")
     public Integer joinsForm(@RequestBody JoinsEntity joinsEntity){
         System.out.println(joinsEntity.toString());
         return 1;
