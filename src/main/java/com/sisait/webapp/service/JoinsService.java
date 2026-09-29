@@ -25,6 +25,9 @@ public class JoinsService {
         JoinsEntity entity = repository.findByUseridAndPassword(joinsEntity.getUserid(), joinsEntity.getPassword());
         System.out.println(entity);
 
+        // 로그인 성공: 세션에 필요한 정보기록()
+
+        // 로그인 실패
         return entity;
     }
 }

@@ -4,7 +4,9 @@ package com.sisait.webapp.controller;
 
 import com.sisait.webapp.domain.JoinsEntity;
 import com.sisait.webapp.service.JoinsService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.mapping.Join;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/joins")
 public class JoinsController {
     private final JoinsService service;
-    private Object JoinsEntity;
-
+//    private Object JoinsEntity;
+//    private JoinsEntity entity;
     //회원가입 구현
     @RequestMapping("/joinsForm")
     public Integer joinsForm(@RequestBody JoinsEntity joinsEntity){
@@ -26,9 +28,33 @@ public class JoinsController {
 
     //로그인 구현
     @PostMapping("/login")
-    public String joinsLogin(@RequestBody JoinsEntity joinsEntity) {
-        System.out.println(joinsEntity.toString());
-        JoinsEntity = service.login(joinsEntity);
-        return "test";
+    public JoinsEntity joinsLogin(@RequestBody JoinsEntity joinsEntity, HttpSession session) {
+
+        System.out.println(session.getId());
+        JoinsEntity entity = service.login(joinsEntity);
+        System.out.println(entity.toString());
+        if (entity != null){
+            session.setAttribute("Login", entity.getId());
+            session.setAttribute("LogId", entity.getUserid());
+            session.setAttribute("LogName", entity.getUsername());
+            session.setAttribute("LogStatus", "Y");
+
+
+            entity.setPassword("");
+            entity.setTel("");
+            entity.setEmail("");
+            entity.setWritedate("");
+
+        } else{        // 로그인 실패
+            session.setAttribute("LogStatus", "N");
+        }
+
+        return entity;
+    }
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        //session 객체 자체를 제거한다 --- 새로운 세션이 자동으로 할당된다.
+        session.invalidate();
+        return "OK";
     }
 }
