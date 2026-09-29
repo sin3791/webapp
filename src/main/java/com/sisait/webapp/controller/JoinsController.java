@@ -57,4 +57,20 @@ public class JoinsController {
         session.invalidate();
         return "OK";
     }
+
+    // 회원선택
+    @PostMapping("/getJoins")
+    public JoinsEntity getJoins(@RequestBody JoinsEntity entity){
+        return service.getJoinSelect(entity.getUserid());
+
+    }
+
+    @PostMapping("/joinsEdit") // entity=dto=vo
+    public JoinsEntity joinsEdit(@RequestBody JoinsEntity entity){
+
+
+        JoinsEntity result = service.joinsUpdate(entity);
+        return result;
+
+    }
 }

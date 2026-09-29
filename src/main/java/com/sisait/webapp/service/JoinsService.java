@@ -30,4 +30,25 @@ public class JoinsService {
         // 로그인 실패
         return entity;
     }
+
+    public JoinsEntity getJoinSelect(String userid) {
+        //select joins_id, userid, username, password, tel, email, writedate from joins_entity where userid = ?
+        return repository.findByUserid(userid);
+    }
+                                    // id, userid, username, tel, email, password
+    public JoinsEntity joinsUpdate(JoinsEntity entity) {
+        System.out.println(entity.toString());
+//        entity객체에 있는 패스워드랑 db에 있는 패스워드가 같은지 확인해서 수정한다
+        // db의 원래정보 선택
+        JoinsEntity dbEntity = getJoinSelect(entity.getUserid());
+        System.out.println("iiiiii"+dbEntity.toString());
+        if(dbEntity.getPassword().equals(entity.getPassword())){
+            //비밀번호 같으며 수정
+            return repository.save(entity); //update--> select
+        }else{
+            //수정안함
+            entity.setUserid("");
+            return entity;
+        }
+    }
 }

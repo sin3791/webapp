@@ -8,4 +8,6 @@ public interface JoinsRepository extends JpaRepository<JoinsEntity, Integer> {
 
     //로그인
     JoinsEntity findByUseridAndPassword(String userid, String password);
+
+    JoinsEntity findByUserid(String userid);
 }
