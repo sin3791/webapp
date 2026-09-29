@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequiredArgsConstructor // private final 선언된 변수에 객체를 생성해서 대입해준다.
+@RequiredArgsConstructor // private f// inal 선언된 변수에 객체를 생성해서 대입해준다.
+@RequestMapping("/joins")
 public class JoinsController {
     private final JoinsService service;
 
