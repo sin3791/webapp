@@ -18,4 +18,13 @@ public class JoinsService {
         System.out.println(joinsEntity.toString());
         return repository.save(joinsEntity);
     }
+
+    public JoinsEntity login(JoinsEntity joinsEntity) {
+        //로그인
+        //select * from joins_entity where userid = ? && password=?
+        JoinsEntity entity = repository.findByUseridAndPassword(joinsEntity.getUserid(), joinsEntity.getPassword());
+        System.out.println(entity);
+
+        return entity;
+    }
 }

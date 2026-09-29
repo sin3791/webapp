@@ -5,10 +5,7 @@ package com.sisait.webapp.controller;
 import com.sisait.webapp.domain.JoinsEntity;
 import com.sisait.webapp.service.JoinsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -16,13 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/joins")
 public class JoinsController {
     private final JoinsService service;
+    private Object JoinsEntity;
 
     //회원가입 구현
     @RequestMapping("/joinsForm")
     public Integer joinsForm(@RequestBody JoinsEntity joinsEntity){
-        System.out.println(joinsEntity.toString());
+//        System.out.println(joinsEntity.toString());
         return service.createJoins(joinsEntity).getId();
 
 
+    }
+
+    //로그인 구현
+    @PostMapping("/login")
+    public String joinsLogin(@RequestBody JoinsEntity joinsEntity) {
+        System.out.println(joinsEntity.toString());
+        JoinsEntity = service.login(joinsEntity);
+        return "test";
     }
 }
