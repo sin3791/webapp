@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Index Page</title>
+</head>
+<body>
+<h1>메인 페이지입니다</h1>
+
+<!-- 1. @RequestParam 방식 테스트 (/my/infor) -->
+<h3>1. 이름과 나이 전송하기 (RequestParam)</h3>
+<form method="post" action="/my/infor">
+    이름: <input type="text" name="username" value="홍길동"/><br/>
+    나이: <input type="text" name="age" value="25"/><br/>
+    <input type="submit" value="정보 전송"/>
+</form>
+
+<br>
+<hr>
+
+<!-- 2. DTO 바인딩 방식 테스트 (/my/infor2) -->
+<h3>2. DTO로 데이터 전송하기 (/my/infor2)</h3>
+<form method="post" action="/my/infor2">
+    아이디: <input type="text" name="userid" value="hong123"/><br/>
+    이름: <input type="text" name="username" value="김철수"/><br/>
+    나이: <input type="text" name="age" value="30"/><br/>
+    <input type="submit" value="DTO 전송"/>
+</form>
+
+<br>
+<hr>
+
+<!-- 3. PathVariable 방식 테스트 -->
+<h3>3. Path 주소로 데이터 전송하기</h3>
+<a href="/test/25000/냉장고">클릭하기 (/test)</a><br>
+<a href="/test?won=25000">클릭해보기 (/test)</a>
+</body>
+</html>
