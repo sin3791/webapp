@@ -35,7 +35,7 @@ public class JoinsService {
         //select joins_id, userid, username, password, tel, email, writedate from joins_entity where userid = ?
         return repository.findByUserid(userid);
     }
-                                    // id, userid, username, tel, email, password
+    //회원 수정                      // id, userid, username, tel, email, password
     public JoinsEntity joinsUpdate(JoinsEntity entity) {
         System.out.println(entity.toString());
 //        entity객체에 있는 패스워드랑 db에 있는 패스워드가 같은지 확인해서 수정한다
@@ -50,5 +50,21 @@ public class JoinsService {
             entity.setUserid("");
             return entity;
         }
+    }
+
+    public int unRegister(Integer id) {
+        try{
+            //deleteBy는 반환형이 없으므로 sql은 수행시 삭제대상이 없으면 예외 발생시킴
+            repository.deleteById(id);
+            JoinsEntity entity = repository.findById(id).orElseThrow(()->{
+                throw new IllegalArgumentException("존재하지 않는 정보입니다.");
+
+            });
+            return id;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return 0;
+
     }
 }

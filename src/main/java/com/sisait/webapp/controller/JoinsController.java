@@ -73,4 +73,16 @@ public class JoinsController {
         return result;
 
     }
+
+    //회원 탈퇴 .    /joins/unregister/1
+    @DeleteMapping("/unregister/{id}")
+    public String unregister(@PathVariable Integer id, HttpSession session){
+        // 레코드 삭제
+        int result = service.unRegister(id);
+        if (result == 0){
+            session.invalidate();
+        }
+        //세션에 로그인 정보 지우고
+        return result+""; //new String(id)
+    }
 }
