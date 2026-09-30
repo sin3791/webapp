@@ -27,7 +27,7 @@ public class BoardEntity {
     private String content; //글 내용
 
     @Column(columnDefinition = "int default 0")
-    private String hit; // 조회수
+    private Integer hit; // 조회수
 
     @Column(nullable = false)
     private String ip; //글쓴이의 ip;
