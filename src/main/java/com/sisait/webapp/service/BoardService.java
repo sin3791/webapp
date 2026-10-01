@@ -25,4 +25,10 @@ public class BoardService {
 
         return repository.findAllByOrderByIdDesc();
     }
+
+    public int getTotalRecordCount() {
+        //select count(id) from board_entity;
+        // 검색어가 없을때
+        return (int)repository.countIdBy();
+    }
 }

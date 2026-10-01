@@ -11,4 +11,8 @@ import java.util.List;
 public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
     //모든 레코드 선택
     List<BoardEntity> findAllByOrderByIdDesc();
+
+    //검색어가 없을때 총레코드 수
+    int countIdBy();
+
 }
