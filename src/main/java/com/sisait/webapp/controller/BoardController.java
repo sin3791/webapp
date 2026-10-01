@@ -7,8 +7,12 @@ import com.sisait.webapp.service.BoardService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+//import java.awt.print.Pageable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +41,7 @@ public class BoardController {
 
     }
     @GetMapping("/boardList")
-    public Map<String, Object> boardList(PagingVO vo){
+    public Map<String, Object> boardList(PagingVO vo, @PageableDefault(sort="id", direction = Sort.Direction.DESC) Pageable pageable){
         //리스트 페이지로 보낼 정보를 담을 컬랙션
         Map<String, Object> map = new HashMap<String, Object>();
         // 페이징, 검색
@@ -47,7 +51,9 @@ public class BoardController {
         vo.setTotalRecord(service.getTotalRecordCount());
 
         System.out.println("페이지의 검색어 정보 ====>" + vo.toString());
-        List<BoardEntity> list = service.boardAllSelectList();
+//        List<BoardEntity> list = service.boardAllSelectList();
+        List<BoardEntity> list = service.boardPageList(vo); // 검색어 처리,
+
         map.put("boardList", list); //목록
 
         map.put("pages", vo);

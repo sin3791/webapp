@@ -14,7 +14,7 @@ public class PagingVO {
     private int offsetPoint;
 
     private int onePageNumCount = 5;
-    private int startPageNum;
+    private int startPageNum=1;
 
     private String searchKey;
     private String searchWord;
@@ -25,6 +25,8 @@ public class PagingVO {
 
     public void setNowPage(int nowPage) {
         this.nowPage = nowPage;
+
+        startPageNum = (nowPage-1)/onePageNumCount*onePageNumCount+1;
     }
 
     public int getOnePageRecord() {
