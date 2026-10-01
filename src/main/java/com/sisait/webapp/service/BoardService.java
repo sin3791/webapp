@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Service
 @RestController
 @RequestMapping("/board")
@@ -17,5 +19,10 @@ public class BoardService {
 
     public BoardEntity boardWrite(BoardEntity entity) {
         return repository.save(entity);
+    }
+
+    public List<BoardEntity> boardAllSelectList() {
+
+        return repository.findAllByOrderByIdDesc();
     }
 }

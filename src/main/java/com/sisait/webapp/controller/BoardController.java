@@ -8,6 +8,10 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/board")
@@ -30,5 +34,15 @@ public class BoardController {
             return "OK"; // insert된 경우
         }
 
+    }
+    @GetMapping("/boardList")
+    public Map<String, Object> boardList(){
+        //리스트 페이지로 보낼 정보를 담을 컬랙션
+        Map<String, Object> map = new HashMap<String, Object>();
+        // 페이징, 검색
+        //DB의 모든 레코드를 desc선택하여 List<BoardEntity>에 담아 변환
+        List<BoardEntity> list = service.boardAllSelectList();
+        map.put("boardList", list); //목록
+        return map;
     }
 }
