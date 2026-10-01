@@ -48,7 +48,7 @@ public class BoardController {
         //DB의 모든 레코드를 desc선택하여 List<BoardEntity>에 담아 변환
 
         //총 레코드수를 구하여 vo에 totalRecord에 대입
-        vo.setTotalRecord(service.getTotalRecordCount());
+        vo.setTotalRecord(service.getTotalRecordCount(vo));
 
         System.out.println("페이지의 검색어 정보 ====>" + vo.toString());
 //        List<BoardEntity> list = service.boardAllSelectList();
