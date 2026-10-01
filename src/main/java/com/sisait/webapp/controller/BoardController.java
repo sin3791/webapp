@@ -16,12 +16,19 @@ public class BoardController {
     // 게시판 글등록
     private final BoardService service;
     @PostMapping("/boardWrite")
-    public String boardWrite(@RequestBody BoardEntity entity, HttpServletRequest request){
+    public String boardWrite(@RequestBody BoardEntity entity, HttpServletRequest request) {
         entity.setIp(request.getRemoteAddr());
-        System.out.println(entity.toString());
+        entity.setHit(0);
+//        System.out.println("insert 전" + entity.toString());
         //insert . -> 등록  save() -> select를 반환
         BoardEntity insertEntity = service.boardWrite(entity);
-        return "OK";
+//        System.out.println("insert 후"+ insertEntity);
+
+        if (insertEntity.getIp() == null) { //insert안된경우
+            return "Fail";
+        } else {
+            return "OK"; // insert된 경우
+        }
 
     }
 }
