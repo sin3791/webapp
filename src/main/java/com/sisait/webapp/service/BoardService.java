@@ -64,7 +64,22 @@ public class BoardService {
         // 1. 컨트롤러 매핑에 @PageableDefault 어노테이션 기술하기
 
         //                                                                      선택할 페이지
-        List<BoardEntity> list = repository.findAllByOrderByIdDesc(PageRequest.of(vo.getNowPage()- 1, vo.getOnePageRecord()));
-        return list;
+        if(vo.getSearchWord()==null || vo.getSearchWord().equals("")) {
+            return repository.findAllByOrderByIdDesc(PageRequest.of(vo.getNowPage()- 1, vo.getOnePageRecord()));
+
+        }else{ // 검색어가 있을떄
+                //제목에서 검색할떄
+            if(vo.getSearchKey().equals("subject")){
+                return repository.findBySubjectContainingOrderByIdDesc(vo.getSearchWord(),
+                        PageRequest.of(vo.getNowPage()-1, vo.getOnePageRecord()));
+
+            } else if(vo.getSearchKey().equals("content")){
+                return repository.findByContentContainingOrderByIdDesc(vo.getSearchWord(), vo.getNowPage()-1, vo.getOnePageRecord());
+            } else{//작성자에서 검색할떄
+                return repository.findByJoinsEntity_IdInOrderByIdDesc(joins_idList(vo.getSearchWord()));
+            }
+                //글내용에서 검색할때
+        }
+
     }
 }

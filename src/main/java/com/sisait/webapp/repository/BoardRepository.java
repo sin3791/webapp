@@ -27,4 +27,10 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
 
     int countByJoinsEntity_IdIn(List<Integer> integers);
+
+    List<BoardEntity> findBySubjectContainingOrderByIdDesc(String searchWord, PageRequest of);
+
+    List<BoardEntity> findByContentContainingOrderByIdDesc(String searchWord, int i, int onePageRecord);
+
+    List<BoardEntity> findByJoinsEntity_IdInOrderByIdDesc(List<Integer> integers);
 }
