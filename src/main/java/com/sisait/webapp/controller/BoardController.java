@@ -59,4 +59,45 @@ public class BoardController {
         map.put("pages", vo);
         return map;
     }
+    @GetMapping("/boardView/{id}")
+    public BoardEntity boardSelect(@PathVariable("id") int id){
+
+        //조회수 증가
+        service.hitCount(id);
+
+        return service.boardSelect(id);
+    }
+    @GetMapping("/boardEdit/{id}")
+    public BoardEntity boardEditSelect(@PathVariable("id") int id){
+
+        return service.boardSelect(id);
+    }
+
+    //글 수정 db업데이트
+    @PostMapping("/boardEditOk")
+    public String boardEditOk(@RequestBody BoardEntity entity){
+        System.out.println(entity.toString());
+        //기존 글 내용이 있는 레코드를 가져와야함
+        BoardEntity selectEntity = service.boardSelect(entity.getId());
+        selectEntity.setSubject(entity.getSubject()); //수정한 제목으로 변경
+        selectEntity.setContent(entity.getContent()); //수정한 글 내용으로 변경
+        //id가 있기 떄문에 save()메소드는 update문을 만들어 구현한다.
+        BoardEntity resultEntity = service.boardWrite(selectEntity);
+
+
+        if(resultEntity != null){
+            return "Ok";
+        } else{
+            return "fail";
+
+        }
+    }
+
+
+    //글 삭제
+    @GetMapping("/boardDel/{id}")
+    public String boardDel(@PathVariable("id") int id){
+        int result = service.boardDelete(id);
+        return result+"";
+    }
 }

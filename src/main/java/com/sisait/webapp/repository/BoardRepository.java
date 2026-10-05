@@ -2,8 +2,12 @@ package com.sisait.webapp.repository;
 
 import com.sisait.webapp.domain.BoardEntity;
 import com.sisait.webapp.domain.JoinsEntity;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -32,5 +36,12 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Integer> {
 
     List<BoardEntity> findByContentContainingOrderByIdDesc(String searchWord, int i, int onePageRecord);
 
-    List<BoardEntity> findByJoinsEntity_IdInOrderByIdDesc(List<Integer> integers);
+    List<BoardEntity> findByJoinsEntity_IdInOrderByIdDesc(List<Integer> integers, PageRequest of);
+
+    //
+
+    @Modifying //update, delete일떄
+    @Transactional
+    @Query("delete from BoardEntity where id=:id")
+    int boardDelete(@Param("id") int id);
 }

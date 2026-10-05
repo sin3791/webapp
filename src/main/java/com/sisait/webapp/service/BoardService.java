@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RestController
@@ -76,10 +77,35 @@ public class BoardService {
             } else if(vo.getSearchKey().equals("content")){
                 return repository.findByContentContainingOrderByIdDesc(vo.getSearchWord(), vo.getNowPage()-1, vo.getOnePageRecord());
             } else{//작성자에서 검색할떄
-                return repository.findByJoinsEntity_IdInOrderByIdDesc(joins_idList(vo.getSearchWord()));
+//                return repository.findByJoinsEntity_IdInOrderByIdDesc(joins_idList(vo.getSearchWord()),
+//                        PageRequest.of(vo.getNowPage()-1, vo.getOnePageRecord());
+
+                return repository.findByJoinsEntity_IdInOrderByIdDesc(
+                        joins_idList(vo.getSearchWord()),
+                        PageRequest.of(vo.getNowPage() - 1, vo.getOnePageRecord())
+                );
             }
                 //글내용에서 검색할때
         }
 
     }
+
+    public BoardEntity boardSelect(int id) {
+        //select * from board_entity where id=?
+        Optional<BoardEntity> option= repository.findById(id);
+        return option.get();
+
+    }
+
+    public void hitCount(int id) {
+        BoardEntity orgEntity = boardSelect(id);
+        orgEntity.setHit(orgEntity.getHit()+1);
+        repository.save(orgEntity);
+    }
+
+    public int boardDelete(int id) {
+        return repository.boardDelete(id);
+    }
+
+    //조회수 증가
 }
