@@ -30,6 +30,12 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // Source: https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation("commons-io:commons-io:2.22.0")
+
+    // Source: https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
+    implementation("commons-fileupload:commons-fileupload:1.6.0")
 }
 
 tasks.named('test') {
