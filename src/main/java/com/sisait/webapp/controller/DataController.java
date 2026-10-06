@@ -83,7 +83,7 @@ public class DataController {
 
                         fEntity.setSize((int) file.length());
                         uploadFileList.add(fEntity);
-                        
+
                     }catch (Exception e){}
 
                 }
