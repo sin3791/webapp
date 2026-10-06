@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +53,9 @@ public class DataEntity {
 
     @JsonManagedReference
     private List<FileEntity> fileList = new ArrayList<FileEntity>();
+
+    //MultipartFile 객체를 request변수를 선언한다.
+    @Transient //db에 field를 선언하지 않는다.
+    List<MultipartFile> files;
 
 }
