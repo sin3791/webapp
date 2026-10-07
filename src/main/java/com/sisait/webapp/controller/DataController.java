@@ -7,6 +7,7 @@ import com.sisait.webapp.service.DataService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,11 +41,24 @@ public class DataController {
             }
             DataEntity resultEntity = service.dataInsert(entity);
             fileList = fileuploadProcess(resultEntity.getId(), entity.getFiles(), path);
+
+            System.out.println("size -->" +fileList.size());
+
+            int resultCount = service.fileListInsert(fileList);
             return "Ok";
 
 
         }catch (Exception e){
+            e.printStackTrace();
             //이미 업로드된 파일 삭제
+            if(fileList != null){
+                for(FileEntity fe : fileList){
+                    File f = new File(path, fe.getFilename()+"."+fe.getExtname());
+                    f.delete();
+
+                }
+            }
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             return "failed";
         }
 
@@ -55,6 +69,7 @@ public class DataController {
 
         if(fileList != null){
             for(MultipartFile mf : fileList){
+//                System.out.println(1);
                 if(mf != null){
                     String orgFilename = mf.getOriginalFilename();
                     File file = new File(path, orgFilename);
@@ -66,7 +81,7 @@ public class DataController {
                         for (int i = 1; ; i++){
                             String newFilename = filename+"(" + i +")."+ extname;
                             file = new File(path, newFilename);
-                            if (file.exists()){
+                            if (!file.exists()){
                                 orgFilename =newFilename;
                                 break;
 
@@ -76,20 +91,28 @@ public class DataController {
                     try{
                         mf.transferTo(file);
                         FileEntity fEntity = new FileEntity();
-                        fEntity.getDataEntity().setId(id);
+                        System.out.println(1111);
+                        DataEntity data = new DataEntity();
+                        data.setId(id);
+                        System.out.println(2222);
+                        fEntity.setDataEntity(data);
+
+
                         int p = orgFilename.lastIndexOf(".");
                         fEntity.setFilename(orgFilename.substring(0,p));
                         fEntity.setExtname(extname);
-
                         fEntity.setSize((int) file.length());
-                        uploadFileList.add(fEntity);
 
-                    }catch (Exception e){}
+                        uploadFileList.add(fEntity);
+                        System.out.println(3333);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
 
                 }
             }
         }
-        return null;
+        return uploadFileList;
 
     }
 }
