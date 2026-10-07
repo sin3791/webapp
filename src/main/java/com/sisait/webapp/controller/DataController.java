@@ -36,7 +36,7 @@ public class DataController {
 
             File pathFile = new File(path);
             if( pathFile.exists()){
-                pathFile.mkdir(); // 폴더 생성됨
+                pathFile.mkdirs(); // 폴더 생성됨
             }
             DataEntity resultEntity = service.dataInsert(entity);
             fileList = fileuploadProcess(resultEntity.getId(), entity.getFiles(), path);
