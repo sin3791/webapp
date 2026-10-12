@@ -1,6 +1,7 @@
 package com.sisait.webapp.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,6 +30,7 @@ public class FileEntity {
 
     @ManyToOne
     @JoinColumn(name="DATA_ID")
+    @JsonBackReference
     private DataEntity dataEntity;
 
 

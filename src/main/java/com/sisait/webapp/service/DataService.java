@@ -35,4 +35,14 @@ public class DataService {
     }
 
 
+    public List<DataEntity> dataListSelect() {
+
+        // select * from data_entity order by id desc
+        return repository.findAllByOrderByIdDesc();
+
+    }
+
+    public DataEntity dataDetailSelect(int id) {
+        return repository.findById(id).get();
+    }
 }

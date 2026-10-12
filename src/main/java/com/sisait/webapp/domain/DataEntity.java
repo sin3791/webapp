@@ -1,6 +1,7 @@
 package com.sisait.webapp.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,8 @@ public class DataEntity {
 
     @ManyToOne
     @JoinColumn(name= "JOINS_id")
+//    @JsonIgnore
+
     private JoinsEntity joinsEntity;
 
 

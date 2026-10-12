@@ -6,15 +6,19 @@ import com.sisait.webapp.domain.FileEntity;
 import com.sisait.webapp.service.DataService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +66,27 @@ public class DataController {
             return "failed";
         }
 
+    }
+    @GetMapping("/dataList")
+    public List<DataEntity> dataList(){
+        return service.dataListSelect();
+    }
+    @GetMapping("/dataDetail/{id}")
+    public DataEntity dataDetail(@PathVariable("id") int id){
+        System.out.println(id);
+        return  service.dataDetailSelect(id);
+    }
+    @GetMapping("/file/download/{downFile}")
+    public ResponseEntity<Resource> downloadFile(@PathVariable ("downFile") String downFile, HttpSession session) throws Exception{
+        String folder = session.getServletContext().getRealPath("/uploads");
+
+        Path path = Paths.get(folder, downFile);
+        Resource resource = new UrlResource(path.toUri());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+downFile+"\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
     }
 
     public List<FileEntity> fileuploadProcess(int id, List<MultipartFile> fileList, String path){
