@@ -5,6 +5,9 @@ import com.sisait.webapp.domain.FileEntity;
 import com.sisait.webapp.repository.DataRepository;
 import com.sisait.webapp.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,5 +68,13 @@ public class DataService {
     public List<FileEntity> fileDeleteList(List<Integer> delFile) {
         return fileRepository.findByIdIn(delFile);
 
+    }
+
+    public int dataDBDelete(int id) {
+        return repository.dataDBDelete(id);
+    }
+
+    public int fileDBDelete(int id) {
+        return fileRepository.fileDelete(id);
     }
 }

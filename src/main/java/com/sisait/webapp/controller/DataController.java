@@ -138,6 +138,28 @@ public class DataController {
         }
     }
 
+    @GetMapping("/dataDelete/{id}")
+    @Transactional(rollbackFor = {RuntimeException.class, SQLException.class})
+    public String dataDelete(@PathVariable("id") int id, HttpSession session){
+        String path = session.getServletContext().getRealPath("/uploads");
+        try{
+            DataEntity dbSelect = service.dataDetailSelect(id);
+            System.out.println(dbSelect.toString());
+            int fileResult = 0;
+            for(FileEntity fEntity : dbSelect.getFileList()){
+                fileResult += service.fileDBDelete(fEntity.getId());
+            }
+            int result = service.dataDBDelete(id);
+            fileDelete(path, dbSelect.getFileList());
+            return "Ok";
+        }catch (Exception e){
+            e.printStackTrace();
+
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return "Fail";
+        }
+
+    }
     public void fileDelete(String path, List<FileEntity> List){
         if(List != null && List.size()>0){
             for(FileEntity f :List){

@@ -16,5 +16,9 @@ public interface FileRepository extends JpaRepository<FileEntity, Integer> {
 
     List<FileEntity> findByIdIn(List<Integer> delFile);
 
+    @Modifying
+    @Query("delete from FileEntity where id=:id")
+    int fileDelete(@Param("id") int id);
+
 //    List<FileEntity> findByIdIn(List<Integer> delFile);
 }

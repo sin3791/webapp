@@ -25,6 +25,10 @@ public interface DataRepository extends JpaRepository<DataEntity, Integer> {
     int dataUpdate(@Param("id")int id, @Param("subject") String subject, @Param("content") String content);
 
 
+    @Modifying
+    @Query("delete from DataEntity where id=:id")
+    int dataDBDelete(@Param("id") int id);
+
 
 //    List<FileEntity> findByIdIn(List<Integer> delFile);
 
