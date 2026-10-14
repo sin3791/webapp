@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,6 +42,7 @@ public class DataEntity {
 
     @ManyToOne
     @JoinColumn(name= "JOINS_id")
+    @ToString.Exclude
 //    @JsonIgnore
 
     private JoinsEntity joinsEntity;
@@ -61,4 +63,5 @@ public class DataEntity {
     @Transient //db에 field를 선언하지 않는다.
     List<MultipartFile> files;
 
+    List<Integer> delFile;
 }

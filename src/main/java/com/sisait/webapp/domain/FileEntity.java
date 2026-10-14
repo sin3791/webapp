@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -31,7 +32,9 @@ public class FileEntity {
     @ManyToOne
     @JoinColumn(name="DATA_ID")
     @JsonBackReference
+    @ToString.Exclude
     private DataEntity dataEntity;
+
 
 
 }

@@ -45,4 +45,25 @@ public class DataService {
     public DataEntity dataDetailSelect(int id) {
         return repository.findById(id).get();
     }
+
+    public int fileDelete(List<Integer> delFile) {
+        int cnt = 0;
+
+        if(delFile != null){
+            for(int id : delFile) {
+                cnt += fileRepository.dataFileDelete(id);
+            }
+        }
+
+        return cnt;
+    }
+
+    public int dataUpdate(DataEntity entity) {
+        return repository.dataUpdate(entity.getId(), entity.getSubject(), entity.getContent());
+    }
+
+    public List<FileEntity> fileDeleteList(List<Integer> delFile) {
+        return fileRepository.findByIdIn(delFile);
+
+    }
 }

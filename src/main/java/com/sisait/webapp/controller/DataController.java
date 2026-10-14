@@ -5,6 +5,7 @@ import com.sisait.webapp.domain.DataEntity;
 import com.sisait.webapp.domain.FileEntity;
 import com.sisait.webapp.service.DataService;
 import jakarta.servlet.http.HttpSession;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -87,6 +88,64 @@ public class DataController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""+downFile+"\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
+    }
+    @PostMapping("/dataEdit")
+    @Transactional(rollbackFor = {RuntimeException.class, SQLException.class})
+    public String dataEdit(DataEntity entity, HttpSession session){
+        System.out.println("1-->"+entity.toString());
+
+        DataEntity orgDataEntity = service.dataDetailSelect(entity.getId());
+        System.out.println("2-->"+orgDataEntity.toString());
+
+        String uploadPath = session.getServletContext().getRealPath("/uploads");
+        List<FileEntity> newUploadFile = null;
+        int uploadFileCnt =0;
+        try{
+            newUploadFile = fileuploadProcess(entity.getId(), entity.getFiles(), uploadPath);
+
+            if(newUploadFile !=null && newUploadFile.size()>0){
+                uploadFileCnt = service.fileListInsert(newUploadFile);
+            }
+            List<FileEntity> delFileList = service.fileDeleteList(entity.getDelFile());
+
+            int delFileCount = service.fileDelete(entity.getDelFile());
+
+            //원글 수정한 내용을 update하기
+            int updateCount = service.dataUpdate(entity);
+
+            if(delFileList != null){
+                for (FileEntity f : delFileList){
+                    File file = new File(uploadPath, f.getFilename()+ "."+f.getExtname());
+                    file.delete();
+                }
+            }
+            fileDelete(uploadPath, delFileList);
+            return "Ok";
+        }catch (Exception e){
+
+//            if(newUploadFile != null && newUploadFile.size()>0){
+//                for(FileEntity f :newUploadFile){
+//                    File file = new File(uploadPath, f.getFilename()+"."+f.getExtname());
+//                    file.delete();
+//                }
+//            }
+                e.printStackTrace();
+                fileDelete(uploadPath, newUploadFile);
+
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            return "Fail ";
+
+        }
+    }
+
+    public void fileDelete(String path, List<FileEntity> List){
+        if(List != null && List.size()>0){
+            for(FileEntity f :List){
+                File file = new File(path, f.getFilename()+"."+f.getExtname());
+                file.delete();
+            }
+        }
+
     }
 
     public List<FileEntity> fileuploadProcess(int id, List<MultipartFile> fileList, String path){
