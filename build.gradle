@@ -30,15 +30,29 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+    implementation 'jakarta.inject:jakarta.inject-api:2.0.1'
 
     // Source: https://mvnrepository.com/artifact/commons-io/commons-io
     implementation("commons-io:commons-io:2.22.0")
+
 
     // Source: https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload
     implementation("commons-fileupload:commons-fileupload:1.6.0")
 
     // Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
     implementation("org.springframework.boot:spring-boot-starter-mail:4.1.1")
+
+    // Source: https://mvnrepository.com/artifact/javax.inject/javax.inject
+    implementation("javax.inject:javax.inject:1")
+
+    // Source: https://mvnrepository.com/artifact/org.jsoup/jsoup
+    implementation("org.jsoup:jsoup:1.23.2")
+
+    // Source: https://mvnrepository.com/artifact/org.json/json
+    implementation("org.json:json:20260814")
+
+    // Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-websocket
+    implementation("org.springframework.boot:spring-boot-starter-websocket:4.1.1")
 }
 
 tasks.named('test') {
